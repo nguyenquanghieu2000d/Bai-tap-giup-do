@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+void nhap(int **a,int n){
+	for(int i=0;i<n;i++){
+		a[i] = new int[n];
+	}
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			cin >> a[i][j];
+		}
+	}
+}
+void duongcheo(int **a, int n){
+	int tong =0;
+	for(int i=0;i<n;i++){
+		for(int j=0;j<n;j++){
+			if(i == j ||i+j == n-1){
+				tong+=a[i][j];
+			}
+		}
+	}
+	cout << tong;
+}
+
+int main(){
+	int n;
+	cin >> n;
+	int **a = new int*[n];
+	nhap(a,n);
+	duongcheo(a,n);
+	for(int i=0;i<n;i++){
+		delete(a[i]);
+	}
+	return 0;
+}
