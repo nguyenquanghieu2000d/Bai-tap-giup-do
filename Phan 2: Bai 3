@@ -1,0 +1,90 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+class PhanSo {
+private:
+	int ts;
+	int ms;
+public:
+	PhanSo();
+	void nhap();
+	void xuat();
+	friend PhanSo operator + (PhanSo, PhanSo);
+	friend PhanSo operator - (PhanSo, PhanSo);
+	friend PhanSo operator * (PhanSo, PhanSo);
+	friend PhanSo operator / (PhanSo, PhanSo);
+	friend istream& operator >> (istream&, PhanSo&);
+	friend ostream& operator << (ostream&, PhanSo);
+	~PhanSo() {}
+};
+
+PhanSo::PhanSo() {
+	ts = 0;
+	ms = 0;
+}
+
+void PhanSo::nhap() {
+	cout << "Nhap tu: "; cin >> ts;
+	cout << "Nhap mau: "; cin >> ms;
+}
+
+void PhanSo::xuat() {
+	cout << ts << " / " << ms;
+}
+
+PhanSo operator + (PhanSo A, PhanSo B) {
+	PhanSo x;
+	x.ts = A.ts * B.ms + A.ms * B.ts;
+	x.ms = A.ms * B.ms;
+	return x;
+}
+
+PhanSo operator - (PhanSo A, PhanSo B) {
+	PhanSo x;
+	x.ts = A.ts * B.ms - A.ms * B.ts;
+	x.ms = A.ms * B.ms;
+	return x;
+}
+
+PhanSo operator * (PhanSo A, PhanSo B) {
+	PhanSo x;
+	x.ts = A.ts * B.ts;
+	x.ms = A.ms * B.ms;
+	return x;
+}
+
+PhanSo operator / (PhanSo A, PhanSo B) {
+	PhanSo x;
+	x.ts = A.ts * B.ms;
+	x.ms = A.ms * B.ts;
+	return x;
+}
+
+istream& operator >> (istream& cin, PhanSo& A) {
+	cout << "Nhap tu: "; cin >> A.ts;
+	cout << "Nhap mau: "; cin >> A.ms;
+	return cin;
+}
+
+ostream& operator << (ostream& cout, PhanSo B) {
+	cout << B.ts << " / " << B.ms;
+	return cout;
+}
+
+int main() {
+	PhanSo a;
+	PhanSo b;
+	cout << "Nhap phan so a: " << endl;
+	cin >> a;
+	cout << "Nhap phan so b: " << endl;
+	cin >> b;
+	cout << "Phan so a: " << a << endl;
+	cout << "Phan so b: " << b << endl;
+	cout << "a + b = " << a + b << endl;
+	cout << "a - b = " << a - b << endl;
+	cout << "a * b = " << a * b << endl;
+	cout << "a / b = " << a / b << endl;
+	return 0;
+}
