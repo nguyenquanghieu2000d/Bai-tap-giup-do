@@ -1,0 +1,94 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class xauKiTu {
+private:
+	char* str;
+	int length;
+public:
+	xauKiTu();
+	xauKiTu(char*);
+	void setStr(char*);
+	char* getStr();
+	int getLength();
+	void input();
+	void output();
+	~xauKiTu();
+};
+
+xauKiTu::xauKiTu() {
+	this->str = new char[1];
+	strcpy(this->str, "\0");
+	this->length = 0;
+}
+
+xauKiTu::xauKiTu(char* x) {
+	this->str = new char[strlen(x)];
+	strcpy(this->str,  x);
+	this->length = strlen(x);
+}
+
+void xauKiTu::setStr(char* x) {
+	strcpy(this->str,x);
+	this->length = strlen(this->str);
+}
+
+char* xauKiTu::getStr() {
+	return str;
+}
+
+int xauKiTu::getLength() {
+	return length;
+}
+
+void xauKiTu::input() {
+	cout << "Nhap xau: ";
+	char* x = new char[100];
+	cin.getline(x, 100);
+	this->str = new char[strlen(x)];
+	setStr(x);
+}
+
+void xauKiTu::output() {
+	cout << "Xau: " << getStr() << endl;
+	cout << "Do dai cua xau la: " << getLength() << endl;
+}
+
+xauKiTu::~xauKiTu() {
+}
+
+xauKiTu noiXau(char* s1, char* s2) {
+	xauKiTu s;
+	char *x = new char[strlen(s1) + strlen(s2)+1];
+	strcpy(x, s1);
+	strcat(x, s2);
+	s.setStr(x);
+	return s;
+}
+
+int main() {
+	char* x = new char[100];
+	strcpy(x,  "Nguyen Quang Hieu");
+	cout << "======= XAU S1 =======" << endl;
+	xauKiTu s1;
+	cout << "Su dung ham khoi tao khong tham so" << endl;
+	cout << "Xau duoc khoi tao la:"<< s1.getStr() << endl;
+	cout << "Do dai: " << s1.getLength() << endl;
+	s1.input();
+	s1.output();
+	cout << endl;
+	cout << "======= XAU S2 =======" << endl;
+	xauKiTu s2(x);
+	cout << "Su dung ham khoi tao 1 tham so " << endl;
+	cout << "Xau duoc khoi tao la: " << s2.getStr() << endl;
+	cout << "Do dai cua chuoi la: " << s2.getLength() << endl;
+	s2.input();
+	s2.output();
+	cout << endl;
+	cout << "======= NOI XAU ======" << endl;
+	xauKiTu s = noiXau(s1.getStr(), s2.getStr());
+	s.output();
+	delete(x);
+	return 0;
+}
