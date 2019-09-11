@@ -1,0 +1,99 @@
+#include <iostream>
+using namespace std;
+
+class Time;
+bool checkTime(int GIO, int PHUT, int GIAY);
+
+class Time {
+private:
+	int gio;
+	int phut;
+	int giay;
+public:
+	// get and set
+	void setTime(int, int, int);
+	// method
+	void input();
+	friend bool checkTime(int,int,int);
+	void output12();
+	void output24();
+	void tangGiay();
+};
+
+void Time::setTime(int GIO, int PHUT, int GIAY) {
+	this->gio = GIO;
+	this->phut = PHUT;
+	this->giay = GIAY;
+}
+
+void Time::input() {
+	bool check = true;
+	while (check == true){
+		int GIO, PHUT, GIAY;
+		cout << "Nhap gio: "; cin >> GIO;
+		cout << "Nhap phut: "; cin >> PHUT;
+		cout << "Nhap giay: "; cin >> GIAY;
+		if (checkTime(GIO, PHUT, GIAY) == true) {
+			setTime(GIO, PHUT, GIAY);
+			check = false;
+		}
+		else cout << "Nhap sai cmmr!!!!" << endl;
+	}
+}
+
+
+void Time::output12() {
+	if (gio > 12) cout << gio - 12;
+	else cout << gio;
+	cout << ":" << phut << ":" << giay << endl;
+}
+
+void Time::output24() {
+	cout << gio << ":" << phut << ":" << giay << " PM" << endl;
+}
+
+void Time::tangGiay() {
+	static int ngay = 0;
+	if (giay < 59){
+		int x = this->giay; x++;
+		this->giay = x;
+	}
+	else {
+		this->giay = 0;
+		int x = this->phut; x++;
+		this->phut = x;
+		if (phut == 60) {
+			this->phut = 0;
+			int y = this->gio; y++;
+			this->gio = y;
+			if (gio == 24) {
+				this->gio = 0;
+				ngay++;
+			}
+		}
+	}
+	output24();
+	cout << "Ngay: " << ngay << endl;
+}
+
+
+bool checkTime(int GIO, int PHUT, int GIAY) {
+	if (GIO < 0 || GIO > 23) return false;
+	if (PHUT < 0 || PHUT > 59) return false;
+	if (GIAY < 0 || GIAY > 59) return false;
+	return true;
+}
+
+
+
+int main() {
+	Time A;
+	A.input();
+	A.output12();
+	A.output24();
+	for (int i = 1; i <= 5; i++) {
+		cout << endl<< "Tang: " << i << "giay" << endl;
+		A.tangGiay();
+	}
+	return 0;
+}
