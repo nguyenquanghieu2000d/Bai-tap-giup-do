@@ -1,0 +1,112 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+class Complex {
+private:
+	int real;
+	int image;
+public:
+	Complex();
+	friend istream& operator >> (istream&, Complex&);
+	friend ostream& operator << (ostream&, Complex);
+	friend Complex operator + (Complex, Complex);
+	friend Complex operator - (Complex, Complex);
+	friend void sort(Complex*, int);
+	void nhap();
+	void xuat();
+	~Complex(){}
+};
+
+Complex::Complex() {
+	real = 0;
+	image = 0;
+}
+
+void Complex::nhap() {
+	cout << "Nhap phan thuc: "; cin >> real;
+	cout << "Nhap phan ao: "; cin >> image;
+}
+
+void Complex::xuat() {
+	if(image >= 0)
+	cout << real << "+" << image << "i ";
+	else 
+	cout << real << "" << image << "i ";
+}
+
+istream& operator >> (istream& cin, Complex& complex) {
+	cout << "Nhap phan thuc: "; cin >> complex.real;
+	cout << "Nhap phan ao: "; cin >> complex.image;
+	return cin;
+}
+
+ostream& operator << (ostream& cout, Complex complex) {
+	if (complex.image >= 0)
+		cout << complex.real << "+" << complex.image << "i ";
+	else
+		cout << complex.real << "" << complex.image << "i ";
+	return cout;
+}
+
+Complex operator + (Complex A, Complex B){
+	Complex X;
+	X.real = A.real + B.real;
+	X.image = A.image + B.image;
+	return X;
+}
+
+Complex operator - (Complex A, Complex B) {
+	Complex X;
+	X.real = A.real - B.real;
+	X.image = A.image - B.image;
+	return X;
+}
+
+void nhap(Complex *C, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << "Nhap so phuc thu: " << i + 1 << endl;
+		cin >> C[i];
+		cout << endl;
+	}
+	cout << endl;
+}
+
+void swap(Complex &A, Complex &B) {
+	Complex temp = A;
+	A = B;
+	B = temp;
+}
+
+void sort(Complex* C, int n) {
+	for (int i = 0; i < n; i++) {
+		for (int j = n - 1; j > i; j--) {
+			if (C[j].real < C[j - 1].real) swap(C[j], C[j - 1]);
+		}
+	}
+}
+
+void xuat(Complex* C, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << C[i] << "  ";
+	}
+	cout << endl;
+}
+
+int main() {
+	cout << "So phuc 1: " << endl;
+	Complex A; cin >> A;
+	cout << "So phuc 2: " << endl;
+	Complex B; cin >> B;
+	cout << "Tong 2 so phuc vua nhap la: " << A + B << endl;
+	cout << "Hieu 2 so phuc vua nhap la: " << A - B << endl;
+
+	cout << "Tao mang so phuc: Nhap so phan tu: ";
+	int n; cin >> n;
+	Complex *C = new Complex[n];
+	nhap(C, n);
+	sort(C, n);
+	cout << "Sau khi sap xep theo phan thuc ta co: " << endl;
+	xuat(C, n);
+	return 0;
+}
