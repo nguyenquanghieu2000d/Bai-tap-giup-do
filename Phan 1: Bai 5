@@ -1,0 +1,75 @@
+#include <iostream>
+using namespace std;
+
+class vector {
+private:
+	float* v;
+	int n;
+public:
+	vector();
+	vector(int);
+	vector(int, float*);
+	void saoChep(vector);
+	void hienThi();
+	~vector() {};
+};
+
+vector::vector() {
+	cout << "<< Su dung ham khoi tao khong tham so >>" << endl;
+	cout << "Nhap so phan tu cua vector: ";
+	int N; cin >> N; this->n = N;
+	this->v = new float[n];
+	for (int i = 0; i < n; i++) {
+		cout << "Nhap phan tu thu " << i + 1 << ": ";
+		float k; cin >> k; this->v[i] = k;
+	}
+}
+
+vector::vector(int N) {
+	cout << "<< Su dung ham khoi tao 1 tham so >>" << endl;
+	this->n = N;
+	cout << "So phan tu cua vector la: " << n << endl;
+	this->v = new float[n];
+	for (int i = 0; i < n; i++) {
+		cout << "Nhap phan tu thu " << i + 1 << ": ";
+		float k; cin >> k; this->v[i] = k;
+	}
+}
+
+vector::vector(int N, float* V) {
+	cout << "<< Su dung ham khoi tao 2 tham so >>" << endl;
+	this->n = N;
+	this->v = V;
+}
+
+void vector::saoChep(vector p) {
+	this->v = p.v;
+	this->n = p.n;
+}
+
+void vector::hienThi() {
+	cout << "So phan tu cua vector la: " << n << endl;
+	for (int i = 0; i < n; i++) {
+		cout << "Phan tu thu " << i + 1 << ": " << v[i] << endl;
+	}
+	cout << endl;
+}
+
+int main() {
+	cout << "========== VECTOR A ===========" << endl;
+	vector a;
+	a.hienThi();
+	cout << "========== VECTOR B ===========" << endl;
+	vector b(5);
+	b.hienThi();
+	cout << "========== VECTOR C ===========" << endl;
+	int size = 3; float* x = new float[size];
+	x[0] = 1; x[1] = 90; x[2] = 190;
+	vector c(size,x);
+	c.hienThi();
+	cout << "========= VECTOR B SAU SAO CHEP TU VECTOR A ===========" << endl;
+	b.saoChep(a);
+	b.hienThi();
+	delete(x);
+	return 0;
+}
