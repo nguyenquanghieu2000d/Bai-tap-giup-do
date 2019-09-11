@@ -1,0 +1,100 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Point {
+private:
+	double x;
+	double y;
+public:
+	Point();
+	void setX(double);
+	void setY(double);
+	double getX();
+	double getY();
+	void input();
+	void output();
+	~Point();
+};
+
+Point::Point() {
+	this->x = 0;
+	this->y = 0;
+}
+
+void Point::setX(double X) {
+	this->x = X;
+}
+
+void Point::setY(double Y) {
+	this->y = Y;
+}
+
+double Point::getX() {
+	return x;
+}
+
+double Point::getY() {
+	return y;
+}
+
+void Point::input() {
+	int x;
+	cout << "Nhap x: ";
+	cin >> x;
+	setX(x);
+	int y;
+	cout << "Nhap y: ";
+	cin >> y;
+	setY(y);
+}
+
+void Point::output() {
+	cout << "( " << getX() << " , " << getY() << " )" << endl;
+}
+
+Point::~Point() {
+}
+
+void input_ToaDoDiem(Point* CacDiem, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << "Nhap toa do diem thu " << i+1 << endl;
+		CacDiem[i].input();
+	}
+}
+
+void output_ToaDoDiem(Point* CacDiem, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << "Toa do diem thu " << i+1 << ":";
+		CacDiem[i].output();
+	}
+	cout << endl;
+}
+
+double Tinh(Point A, Point B) {
+	double result = sqrt(pow(B.getX() - A.getX() , 2) + pow(B.getY() - A.getY() , 2));
+	return result;
+}
+
+double KhoangCachDiem(Point* CacDiem, int n) {
+	double max = Tinh(CacDiem[0], CacDiem[1]);
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			if (max < Tinh(CacDiem[i], CacDiem[j])){
+				max = Tinh(CacDiem[i], CacDiem[j]);
+			}
+		}
+	}
+	return max;
+}
+
+int main() {
+	int n;
+	cout << "Nhap so diem: ";
+	cin >> n;
+	Point* CacDiem = new Point[n];
+	input_ToaDoDiem(CacDiem,n);
+	output_ToaDoDiem(CacDiem, n);
+	cout << "Khoang cach lon nhat giua 2 diem trong so cac diem tren la: " << KhoangCachDiem(CacDiem, n);
+	return 0;
+}
