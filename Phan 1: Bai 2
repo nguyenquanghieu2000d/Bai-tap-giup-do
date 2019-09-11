@@ -1,0 +1,149 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class TamGiac {
+private:
+	double a;
+	double b;
+	double c;
+public:
+	// Get and Set
+	void set_a(double);
+	void set_b(double);
+	void set_c(double);
+	double get_a();
+	double get_b();
+	double get_c();
+	// Method
+	void input();
+	double dienTich();
+	int kiemTraTamGiac();
+	void output();
+};
+
+// Get and Set
+
+void TamGiac::set_a(double x) {
+	this->a = x;
+}
+
+void TamGiac::set_b(double x) {
+	this->b = x;
+}
+
+void TamGiac::set_c(double x) {
+	this->c = x;
+}
+
+double TamGiac::get_a() {
+	return a;
+}
+
+double TamGiac::get_b() {
+	return b;
+}
+
+double TamGiac::get_c() {
+	return c;
+}
+
+// Method
+
+void TamGiac::input() {
+	// Nhap
+	double x;
+	cout << "Nhap canh a: ";
+	cin >> x;
+
+	double y;
+	cout << "Nhap canh b: ";
+	cin >> y;
+
+	double z;
+	cout << "Nhap canh c: ";
+	cin >> z;
+
+	// Kiem tra
+	while (x + y <= z || x + z <= y || y + z <= x || y <= 0 || x <= 0 || z <= 0) {
+		cout << "Nhap sai. Nhap lai." << endl;
+
+		cout << "Nhap canh a: ";
+		cin >> x;
+
+		cout << "Nhap canh b: ";
+		cin >> y;
+
+		cout << "Nhap canh c: ";
+		cin >> z;
+	}
+
+	// Thiet lap
+	set_a(x);
+	set_b(y);
+	set_c(z);
+}
+
+double TamGiac::dienTich() {
+	double A = get_a();
+	double B = get_b();
+	double C = get_c();
+	double P = (A + B + C) / 2;
+	return sqrt( P * (P - A) * (P - B) * (P - C) );
+}
+
+int TamGiac::kiemTraTamGiac() {
+	double A = get_a();
+	double B = get_b();
+	double C = get_c();
+
+	if (fabs(A * A - B * B - C * C) < 0.01 || fabs(B * B - A * A - C * C) < 0.01 || fabs(C * C - A * A - B * B) < 0.01) {
+		if (A == B || A == C || B == C) return 1;
+		else return 2;
+	}
+	else if (A == B && A == C && B == C) return 3;
+	else if (A == B || A == C || B == C) return 4;
+	else if (A * A > B * B + C * C || B * B > A * A + C * C || C * C > A * A + B * B) return 5;
+	else return 6;
+}
+
+void TamGiac::output() {
+	cout << "Tam giac vua nhap co do dai 3 canh la: " << get_a() << " , " << get_b() << " , " << get_c() << endl;
+	cout << "Dien tich tam giac la: " << dienTich() << endl;
+	
+	switch (kiemTraTamGiac()){
+		case 1: {
+			cout << "Day la tam giac vuong can.";
+			break;
+		}
+		case 2: {
+			cout << "Day la tam giac vuong.";
+			break;
+		}
+		case 3: {
+			cout << "Day la tam giac deu.";
+			break;
+		}
+		case 4: {
+			cout << "Day la tam giac can.";
+			break;
+		}
+		case 5: {
+			cout << "Day la tam giac tu.";
+			break;
+		}
+		case 6: {
+			cout << "Day la tam giac thuong.";
+			break;
+		}
+	}
+}
+
+int main() {
+	TamGiac a;
+	a.input();
+	a.output();
+	cout << endl;
+	system("pause");
+	return 0;
+}
