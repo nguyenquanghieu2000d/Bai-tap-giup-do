@@ -1,0 +1,51 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class HinhTron {
+private:
+	double R;
+public:
+	void setR(double);
+	double getR();
+	void input();
+	void output();
+	double chuVi();
+	double dienTich();
+};
+
+void HinhTron::setR(double x) {
+	this->R = x;
+}
+
+double HinhTron::getR() {
+	return R;
+}
+
+void HinhTron::input() {
+	double x;
+	cout << "Nhap ban kinh hinh tron: ";
+	cin >> x;
+	setR(x);
+}
+
+void HinhTron::output() {
+	cout << "Ban kinh hinh tron vua nhap la: " << getR() << endl;
+}
+
+double HinhTron::chuVi() {
+	return 2 * 3.141592 * getR();
+}
+
+double HinhTron::dienTich() {
+	return 3.141592 * pow(getR(), 2);
+}
+
+int main() {
+	HinhTron a;
+	a.input();
+	a.output();
+	cout << "Chu vi hinh tron la: " << a.chuVi() << endl;
+	cout << "Dien tich hinh trong la: " << a.dienTich() << endl;
+	return 0;
+}
