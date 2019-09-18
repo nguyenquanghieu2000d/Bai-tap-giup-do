@@ -1,0 +1,107 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class MonHoc {
+private:
+	char TenMon[100];
+	float DiemTP;
+	float DiemThi;
+	int SoTC;
+public:
+	MonHoc();
+	~MonHoc(){}
+	void input();
+	void output();
+	float DTB();
+	int TinChi();
+};
+
+MonHoc::MonHoc() {
+	strcpy(this->TenMon,"\0");
+	this->DiemTP = 0;
+	this->DiemThi = 0;
+	this->SoTC = 0;
+}
+
+void MonHoc::input() {
+	cout << "Nhap ten mon: "; cin.ignore(); cin.getline(TenMon, 100);
+	cout << "Nhap diem TP: "; cin >> DiemTP;
+	cout << "Nhap diem thi: "; cin >> DiemThi;
+	cout << "Nhap so TC: "; cin >> SoTC;
+}
+
+void MonHoc::output() {
+	cout << TenMon << " , " << DiemTP << " , " << DiemThi << " , " << SoTC << endl;
+}
+
+float MonHoc::DTB() {
+	float result = DiemTP * 0.3 + DiemThi * 0.7;
+	return result;
+}
+
+int MonHoc::TinChi() {
+	return SoTC;
+}
+
+class SinhVien {
+private:
+	char MaSV[10];
+	char TenSV[100];
+	int SoMH;
+	MonHoc* a;
+public:
+	SinhVien();
+	~SinhVien(){}
+	friend istream& operator>> (istream&, SinhVien&);
+	friend ostream& operator<< (ostream&, SinhVien);
+	float DTK();
+};
+
+SinhVien::SinhVien() {
+	strcpy(this->MaSV,"\0");
+	strcpy(this->TenSV, "\0");
+	this->SoMH = 0;
+}
+
+istream& operator>> (istream& cin, SinhVien& sinhVien) {
+	cout << "Nhap ma SV: "; cin.getline(sinhVien.MaSV, 10);
+	cout << "Nhap ten SV: "; cin.getline(sinhVien.TenSV, 100);
+	cout << "Nhap so MH: "; cin >> sinhVien.SoMH;
+	sinhVien.a = new MonHoc[sinhVien.SoMH];
+	for (int i = 0; i < sinhVien.SoMH; i++) {
+		cout << "Nhap thong tin mon hoc thu " << i + 1 << endl;
+		sinhVien.a[i].input();
+	}
+	return cin;
+}
+
+ostream& operator<< (ostream& cout, SinhVien sinhVien) {
+	cout << "Thong tin sinh vien " << endl;
+	cout << sinhVien.MaSV << " , " << sinhVien.TenSV << " , " << sinhVien.SoMH << endl;
+	cout << "Thong tin mon hoc" << endl;
+	for (int i = 0; i < sinhVien.SoMH; i++) {
+		sinhVien.a[i].output();
+	}
+	return cout;
+}
+
+float SinhVien::DTK() {
+	float sum1 = 0;
+	float sum = 0;
+	for (int i = 0; i < SoMH; i++) {
+		sum += a[i].DTB() * a[i].TinChi();
+		sum1 += a[i].TinChi();
+	}
+	float result = sum / sum1;
+	return result;
+}
+
+int main() {
+	SinhVien A;
+	cin >> A;
+	cout << A;
+	cout << "Diem TK: ";
+	cout << A.DTK();
+	return 0;
+}
