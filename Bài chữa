@@ -1,0 +1,105 @@
+#include<iostream>
+
+#include<string>
+using namespace std;
+class MonHoc {
+private:
+	string tenmon;
+	float diemtp;
+	float diemthi;
+	int sotc;
+public:
+	MonHoc() {}
+	~MonHoc() {}
+	void nhap()
+	{
+		cout << "Nhap ten mon hoc : " << endl;
+		cin.ignore();
+		getline(cin, this->tenmon);
+		cout << "Nhap diem thanh phan : " << endl;
+		cin >> this->diemtp;
+		cout << "Nhap diem thi : " << endl;
+		cin >> this->diemthi;
+		cout << "Nhap so tin chi : " << endl;
+		cin >> this->sotc;
+	}
+	void xuat()
+	{
+		cout << "TEN MON HOC : " << this->tenmon << endl;
+		cout << "DIEM THANH PHAN : " << this->diemtp << endl;
+		cout << "DIEM THI : " << this->diemthi << endl;
+		cout << "SO TIN CHI : " << this->sotc << endl;
+	}
+	/*
+	Cai nay co ve k sai nhung t sua l?i thanh double cho thang visual do thong bao loi
+	*/
+	double getDTB() {
+		double A = diemtp * 0.3 + diemthi * 0.7;
+		return A;
+	}
+	int tinchi() {
+		return sotc;
+	}
+
+
+};
+class SinhVien {
+private:
+	int masv;
+	string tensv;
+	int slmonhoc;
+	MonHoc* a;
+public:
+	SinhVien() {}
+	~SinhVien() {}
+	friend istream& operator>>(istream& is, SinhVien& m)
+	{
+		cout << "Nhap ma sinh vien : " << endl;
+		is >> m.masv;
+		cout << "Nhap ten sinh vien : " << endl;
+		is.ignore();
+		getline(is, m.tensv);
+		cout << "Nhap so luong mon hoc : " << endl;
+		is >> m.slmonhoc;
+		
+		m.a = new MonHoc[m.slmonhoc];
+		for (int i = 0; i < m.slmonhoc; i++)
+		{
+			cout << "***************************" << endl;
+			cout << "Mon hoc thu " << i + 1 << ":" << endl;
+			m.a[i].nhap();
+		}
+		return is;
+	}
+	//		float diemtk(){
+	//			return (getDTB)*gettinchi;
+	//		}
+
+
+	/*
+	Cho nay sai thieu m. cho slmonhoc, sua roi nhe
+	*/
+	friend ostream& operator<<(ostream& os, SinhVien m) // sua lai nhe
+	{
+		os << "***************************" << endl;
+		os << "MA SV : " << m.masv << endl;
+		os << "TEN SV : " << m.tensv << endl;
+		os << "SO LUONG MON HOC : " << m.slmonhoc << endl;
+		os << "DANH SACH CAC MON HOC : " << endl;
+		for (int i = 0; i < m.slmonhoc; i++)
+		{
+			os << "***************************" << endl;
+			os << "MON HOC " << i + 1 << ":" << endl;
+			m.a[i].xuat(); // cho nay sai a la cai cc gi toi them m nhe
+		}
+		return os;
+	}
+};
+int main()
+{
+	SinhVien m;
+	cin >> m;
+	cout << m;
+	system("pause");
+	return 0;
+}
