@@ -1,0 +1,140 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+class Color {
+protected:
+	char TenMau[50];
+	char MaMau[10];
+public:
+	Color();
+	Color(const char[50], const char[10]);
+	~Color(){}
+	friend istream& operator>> (istream&, Color&);
+	friend ostream& operator<< (ostream&, Color);
+	char* getTenMau();
+};
+
+Color::Color(){
+	strcpy(this->TenMau, "\0");
+	strcpy(this->MaMau, "\0");
+}
+
+Color::Color(const char tenMau[50], const char maMau[10]) {
+	strcpy(this->TenMau, tenMau);
+	strcpy(this->MaMau, maMau);
+}
+
+istream& operator>> (istream& cin, Color& A) {
+	cout << "Nhap ten mau: "; cin.ignore(); cin.getline(A.TenMau, 50);
+	cout << "Nhap ma mau: "; cin.ignore(); cin.getline(A.MaMau, 50);
+	return cin;
+}
+
+ostream& operator<< (ostream& cout, Color A) {
+	cout << "Ten mau: " << A.TenMau << endl;
+	cout << "Ma mau: " << A.MaMau << endl;
+	return cout;
+}
+
+char* Color::getTenMau() {
+	return TenMau;
+}
+
+class Point {
+protected:
+	int x;
+	int y;
+public:
+	Point();
+	Point(int, int);
+	~Point(){}
+	friend istream& operator>> (istream&, Point&);
+	friend ostream& operator<< (ostream&, Point);
+	bool CheoChinh();
+};
+
+Point::Point(){
+	this->x = 0;
+	this->y = 0;
+}
+
+Point::Point(int X, int Y) {
+	this->x = X;
+	this->y = Y;
+}
+
+istream& operator>> (istream& cin, Point& B) {
+	cout << "Nhap x: "; cin >> B.x;
+	cout << "Nhap y: "; cin >> B.y;
+	return cin;
+}
+
+ostream& operator<< (ostream& cout, Point B) {
+	cout << " ( " << B.x << " , " << B.y << " ) " << endl;
+	return cout;
+}
+bool Point::CheoChinh() {
+	if (x == y) return true;
+	else return false;
+}
+
+class Pixel : public Point, public Color {
+public:
+	Pixel();
+	Pixel(const char[50],const char[10], int, int);
+	friend istream& operator >> (istream&, Pixel&);
+	friend ostream& operator << (ostream&, Pixel);
+	bool KiemTra();
+	~Pixel(){}
+};
+
+Pixel::Pixel() {}
+
+Pixel::Pixel(const char tenMau[50], const char maMau[10], int X, int Y): Color(tenMau,maMau),Point(X,Y) {}
+
+istream& operator >> (istream& cin, Pixel& A) {
+	cout << "Nhap ten mau: "; cin.ignore(); cin.getline(A.TenMau, 50);
+	cout << "Nhap ma mau: "; cin.ignore(); cin.getline(A.MaMau, 50);
+	cout << "Nhap x: "; cin >> A.x;
+	cout << "Nhap y: "; cin >> A.y;
+	return cin;
+}
+
+ostream& operator << (ostream& cout, Pixel A) {
+	cout << "Ten mau: " << A.TenMau << endl;
+	cout << "Ma mau: " << A.MaMau << endl;
+	cout << "Toa do: " << " ( " << A.x << " , " << A.y << " ) " << endl;
+	return cout;
+}
+
+bool Pixel::KiemTra() {
+	if (Point::CheoChinh() && strcmp(TenMau, "Xanh") == 0) return true;
+	else return false;
+}
+
+
+void nhap(Pixel* a, int n) {
+	for (int i = 0; i < n; i++) {
+		cout << "Nhap Pixel thu " << i + 1 << endl;
+		cin >> a[i];
+	}
+}
+
+void xuat(Pixel* a, int n) {
+	for (int i = 0; i < n; i++) {
+		if (a[i].KiemTra() == true) cout << a[i];
+	}
+}
+
+int main() {
+	int n;
+	cout << "Nhap so pixel: ";
+	cin >> n;
+	Pixel A[100];
+	cout << "======================== NHAP =========================" << endl;
+	nhap(A, n);
+	cout << "======================== XUAT =========================" << endl;
+	xuat(A, n);
+	return 0;
+}
