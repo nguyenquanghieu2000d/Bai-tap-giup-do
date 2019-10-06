@@ -2,6 +2,10 @@
 Ai có thắc mắc gì liên hệ mình nhé
 */
 
+/* Ðây là cách 1, các này nhu cách mà cô b?o m?i ngu?i làm, không áp d?ng tri?t d? tính da hình trong này 
+Ai có th?c m?c gì liên h? mình nhé
+*/
+
 #include <iostream>
 #include <cstring>
 #include <cmath>
@@ -187,13 +191,16 @@ template<class T> void xuat(T a[100], int n){
 		cout << a[i];
 	}
 }
-
+/*
+	Day la ham kiem tra hinh chu nhat toi gian, sang cach 2 se co ham kiem tra day du
+*/
+/*
 void checkHinhChuNhat(HinhChuNhat b[100], int n){
 	for(int i=0;i<n;i++){
 		if(strcmp(b[i].getKieu() , "Hinh Chu Nhat" ) == 0 ) cout << b[i];
 	}
 }
-
+*/
 template<class T> void sapXep(T a[100], int n){
 	for(int i=0;i<n;i++){
 		for(int j=n-1;j>i;j--){
@@ -227,6 +234,9 @@ int main(){
 	cout << endl;
 	cout << "--------------- XUAT -----------------------" << endl;
 	xuat(b,m);
+	
+	/* Ham kiem tra hinh chu nhat k co gia tri trong bai nay */
+	
 	sapXep(a,n);
 	sapXep(b,m);
 	cout << endl;
@@ -236,9 +246,9 @@ int main(){
 	cout << "--------------- SAP XEP CHU NHAT -----------------------" << endl;
 	xuat(b,m);
 	cout << "--------------- MAX TAM GIAC -----------------------" << endl;
-	cout << a[0];
+	cout << a[n-1];
 	cout << endl;
 	cout << "--------------- MAX CHU NHAT -----------------------" << endl;
-	cout << b[0];
+	cout << b[m-1];
 	return 0;
 }
