@@ -1,0 +1,320 @@
+/* Bài áp dụng tính đa hình*/
+
+
+
+#include <iostream>
+#include <cstring>
+#include <cmath>
+
+using namespace std;
+class DaGiac{
+	protected:
+	int soCanh;
+	float doDaiCanh[100];
+	public:
+	DaGiac();
+	DaGiac(int, float[100]);
+	~DaGiac();
+	friend istream& operator >> (istream&,DaGiac&);
+	friend ostream& operator << (ostream&,DaGiac);
+	virtual void nhap();
+	virtual void xuat();
+	float chuVi();
+	virtual float dienTich();
+	virtual char* getKieu();
+	template <class T> bool operator > (T);
+};
+
+DaGiac::DaGiac(){
+	this->soCanh = 0;
+}
+
+DaGiac::DaGiac(int sC, float dDC[100]){
+	this->soCanh = sC;
+	for(int i=0;i<soCanh;i++){
+		this->doDaiCanh[i] = dDC[i];
+	}
+}
+
+DaGiac::~DaGiac(){
+}
+
+istream& operator >> (istream& cin, DaGiac& A){
+	cout << "Nhap so canh: "; cin >> A.soCanh;
+	for(int i=0;i<A.soCanh;i++){
+		cout << "Nhap canh " << i+1 << ": ";
+		cin >> A.doDaiCanh[i];
+	}
+}
+
+ostream& operator << (ostream& cout,DaGiac A){
+	cout << "So canh: " << A.soCanh;
+	cout << endl;
+	cout << "Do dai canh: ";
+	for(int i=0;i<A.soCanh;i++){
+		cout << A.doDaiCanh[i] << " ";
+	}
+	cout << endl;
+}
+
+void DaGiac::nhap(){
+	cout << "Nhap so canh: "; cin >> soCanh;
+	for(int i=0;i<soCanh;i++){
+		cout << "Nhap canh " << i+1 << ": ";
+		cin >> doDaiCanh[i];
+	}
+}
+
+
+
+void DaGiac::xuat(){
+	cout << "So canh: " << soCanh;
+	cout << endl;
+	cout << "Do dai canh: ";
+	for(int i=0;i<soCanh;i++){
+		cout << doDaiCanh[i] << " ";
+	}
+	cout << endl;	
+}
+
+
+float DaGiac::chuVi(){
+	float tong = 0;
+	int count = 0;
+	for(int i=0;i<soCanh;i++){
+		tong += doDaiCanh[i];
+	}
+	return tong;
+}
+
+
+float DaGiac::dienTich(){
+}
+
+template <class T> bool DaGiac::operator > (T a){
+	if(dienTich() > a.dienTich()) return true;
+	else return false;
+}
+
+char* DaGiac::getKieu(){
+}
+
+class TamGiac : public DaGiac{
+	private:
+		char KieuTamGiac[100];
+	public:
+		TamGiac();
+		TamGiac(int, float[100], char[100]);
+		~TamGiac();
+		friend istream& operator >> (istream&,TamGiac&);
+		friend ostream& operator << (ostream&,TamGiac);
+		void nhap();
+		void xuat();
+		float dienTich();
+		char* getKieu();
+};
+
+TamGiac::TamGiac(){
+	strcpy(this->KieuTamGiac,"");
+}
+
+TamGiac::TamGiac(int sC, float dDC[100], char KTG[100]) : DaGiac(sC,dDC){
+	strcpy(this->KieuTamGiac,KTG);
+}
+
+TamGiac::~TamGiac(){
+}
+
+istream& operator >> (istream& cin,TamGiac& A){
+	DaGiac *p = &A;
+	cin >> *p;
+	cout << "Nhap loai (Tam Giac hay Hinh Chu Nhat): "; fflush(stdin); gets(A.KieuTamGiac);
+}
+
+ostream& operator << (ostream& cin,TamGiac A){
+	DaGiac *p = &A;
+	cout << *p;
+	cout << "Loai : " << A.KieuTamGiac << endl;
+	cout << "Dien tich: " << A.dienTich() << endl;
+}
+
+void TamGiac::nhap(){
+	DaGiac::nhap();
+	cout << "Nhap loai (Tam Giac hay Hinh Chu Nhat): "; fflush(stdin); gets(KieuTamGiac);
+}
+
+void TamGiac::xuat(){
+	DaGiac::xuat();
+	cout << "Loai: " << KieuTamGiac << endl;
+	cout << "Dien Tich: " << dienTich() << endl;
+}
+
+
+
+
+float TamGiac::dienTich(){
+	
+	float a = doDaiCanh[0];
+	float b = doDaiCanh[1];
+	float c = doDaiCanh[2];
+	float p = chuVi() / 2;
+	float result = sqrt(p* (p - a)* (p - b)* (p - c));
+	return result;
+}
+
+char* TamGiac::getKieu(){
+	return KieuTamGiac;
+}
+
+
+class HinhChuNhat : public DaGiac{
+	private:
+		char KieuHinhChuNhat[100];
+	public:
+		HinhChuNhat();
+		HinhChuNhat(int, float[100], char[100]);
+		~HinhChuNhat();
+		friend istream& operator >> (istream&,HinhChuNhat&);
+		friend ostream& operator << (ostream&,HinhChuNhat);
+		void nhap();
+		void xuat();
+		float dienTich();
+		char* getKieu();
+};
+
+HinhChuNhat::HinhChuNhat(){
+	strcpy(this->KieuHinhChuNhat,"");
+}
+
+HinhChuNhat::HinhChuNhat(int sC, float dDC[100], char kHCN[100]) : DaGiac(sC, dDC){
+	strcpy(this->KieuHinhChuNhat,"");
+}
+
+HinhChuNhat::~HinhChuNhat(){
+}
+
+istream& operator >> (istream& cin,HinhChuNhat& A) {
+	DaGiac *p = &A;
+	cin >> *p;
+	cout << "Nhap loai (Tam Giac hay Hinh Chu Nhat): : "; fflush(stdin); gets(A.KieuHinhChuNhat);
+}
+
+ostream& operator << (ostream& cin,HinhChuNhat A){
+	DaGiac *p = &A;
+	cout << *p;
+	cout << "Loai: " << A.KieuHinhChuNhat << endl;
+	cout << "Dien tich: " << A.dienTich() << endl;
+}
+
+void HinhChuNhat::nhap(){
+	DaGiac::nhap();
+	cout << "Nhap loai (Tam Giac hay Hinh Chu Nhat): "; fflush(stdin); gets(KieuHinhChuNhat);
+}
+
+void HinhChuNhat::xuat(){
+	DaGiac::xuat();
+	cout << "Loai: " << KieuHinhChuNhat << endl;
+	cout << "Dien Tich: " << dienTich() << endl;
+}
+
+float HinhChuNhat::dienTich(){
+	int temp = doDaiCanh[0];
+	int temp2 = doDaiCanh[0];
+	for(int i=0;i<soCanh;i++){
+		if(temp != doDaiCanh[i]){
+			temp2 = doDaiCanh[i];
+			break;
+		}
+	}
+	return temp * temp2;
+}
+
+char* HinhChuNhat::getKieu(){
+	return KieuHinhChuNhat;
+}
+
+bool kiemTraHinhChuNhat(DaGiac *b){
+	if(strcmp(b->getKieu() , "Hinh Chu Nhat" ) == 0 ) return true;
+	else return false;
+}
+
+
+void sapXep(DaGiac *a[100], int n){
+	for(int i=0;i<n;i++){
+		for(int j=n-1;j>i;j--){
+			if(a[j-1]->dienTich() > a[j]->dienTich()){
+				DaGiac *temp = a[j];
+				a[j] = a[j-1];
+				a[j-1] = temp;
+			}
+		}
+	}
+}
+
+
+int main(){
+	int n;
+	cout << "Nhap so tam giac: ";
+	cin >> n;
+	DaGiac *a[100];
+	cout << "--------------- NHAP HINH TAM GIAC -----------------------" << endl;
+	for(int i=0;i<n;i++){
+		cout << endl;
+		cout << "Nhap thong tin hinh " << i+1 << endl;
+		a[i] = new TamGiac;
+		a[i]->nhap();
+	}
+	
+	int m;
+	cout << "Nhap so chu nhat: ";
+	cin >> m;
+	cout << "--------------- NHAP HINH CHU NHAT -----------------------" << endl;
+	for(int i=n;i<n+m;i++){
+		cout << endl;
+		cout << "Nhap thong tin hinh " << i+1 << endl;
+		a[i] = new HinhChuNhat;
+		a[i]->nhap();
+	}
+	cout << "--------------- XUAT -----------------------" << endl;
+	for(int i=0;i<n+m;i++){
+		cout << endl;
+		cout << "Thong tin hinh " << i+1 << endl;
+		a[i]->xuat();
+	}
+	
+	cout << "--------------- KIEM TRA SO HINH CHU NHAT -----------------------" << endl << endl;
+	/* Ham check hinh chu nhat se co gia tri trong bai nay */
+	cout << "Thong tin cac hinh chu nhat" << endl;
+	int count = 0;
+	for(int i=0;i<n+m;i++){
+		if(kiemTraHinhChuNhat(a[i])){
+			cout << endl;
+			a[i]->xuat();
+			count++;
+		}
+	}
+	
+	cout << endl << "So hinh chu nhat: " << count << endl << endl;
+	
+	
+	cout << endl << "--------------- SAP XEP -----------------------" << endl;
+	
+	float b[100];
+	for(int i=0;i<n+m;i++){
+		b[i] = a[i]->dienTich(); 
+	}
+
+	sapXep(a,n+m);
+	
+	for(int i=0;i<n+m;i++){
+		cout << endl;
+		cout << "Thong tin hinh " << i+1 << endl;
+		a[i]->xuat();
+	}
+	
+	cout << endl << "--------------- MAX -----------------------" << endl;
+	
+	a[n+m-1]->xuat();
+	
+	return 0;
+}
