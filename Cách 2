@@ -45,6 +45,7 @@ istream& operator >> (istream& cin, DaGiac& A){
 		cout << "Nhap canh " << i+1 << ": ";
 		cin >> A.doDaiCanh[i];
 	}
+	return cin;
 }
 
 ostream& operator << (ostream& cout,DaGiac A){
@@ -55,6 +56,7 @@ ostream& operator << (ostream& cout,DaGiac A){
 		cout << A.doDaiCanh[i] << " ";
 	}
 	cout << endl;
+	return cout;
 }
 
 void DaGiac::nhap(){
@@ -129,6 +131,7 @@ istream& operator >> (istream& cin,TamGiac& A){
 	DaGiac *p = &A;
 	cin >> *p;
 	cout << "Nhap loai (Tam Giac hay Hinh Chu Nhat): "; fflush(stdin); gets(A.KieuTamGiac);
+	return cin;
 }
 
 ostream& operator << (ostream& cin,TamGiac A){
@@ -136,6 +139,7 @@ ostream& operator << (ostream& cin,TamGiac A){
 	cout << *p;
 	cout << "Loai : " << A.KieuTamGiac << endl;
 	cout << "Dien tich: " << A.dienTich() << endl;
+	return cout;
 }
 
 void TamGiac::nhap(){
@@ -197,6 +201,7 @@ istream& operator >> (istream& cin,HinhChuNhat& A) {
 	DaGiac *p = &A;
 	cin >> *p;
 	cout << "Nhap loai (Tam Giac hay Hinh Chu Nhat): : "; fflush(stdin); gets(A.KieuHinhChuNhat);
+	return cin;
 }
 
 ostream& operator << (ostream& cin,HinhChuNhat A){
@@ -204,6 +209,7 @@ ostream& operator << (ostream& cin,HinhChuNhat A){
 	cout << *p;
 	cout << "Loai: " << A.KieuHinhChuNhat << endl;
 	cout << "Dien tich: " << A.dienTich() << endl;
+	return cout;
 }
 
 void HinhChuNhat::nhap(){
