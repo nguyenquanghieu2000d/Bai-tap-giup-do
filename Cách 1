@@ -2,9 +2,7 @@
 Ai có thắc mắc gì liên hệ mình nhé
 */
 
-/* Ðây là cách 1, các này nhu cách mà cô b?o m?i ngu?i làm, không áp d?ng tri?t d? tính da hình trong này 
-Ai có th?c m?c gì liên h? mình nhé
-*/
+
 
 #include <iostream>
 #include <cstring>
