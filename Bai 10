@@ -1,70 +1,139 @@
 #include <iostream>
+#include <string.h>
 using namespace std;
 
-class PhanSo{
+class HangHoa{
 	private:
-		int tuSo;
-		int mauSo;	
+		int maHang;
+		char tenHang[100];
+		int loaiHang;
+		float giaBan;
 	public:
-		PhanSo(){
-			tuSo = mauSo = 0;
+		HangHoa(){
+			maHang = 0;
+			strcpy(tenHang,"");
+			loaiHang = 0;
+			giaBan = 0.0;
 		}
-		PhanSo(int tuSo, int mauSo){
-			this->tuSo = tuSo;
-			this->mauSo = mauSo;
+		HangHoa(int maHang, const char tenHang[100], int loaiHang, float giaBan){
+			this->maHang = maHang;
+			strcpy(this->tenHang, tenHang);
+			this->loaiHang = loaiHang;
+			this->giaBan = giaBan;
 		}
-		~PhanSo(){
+		~HangHoa(){
 		}
 		void nhap(){
-			cout << "Nhap tu so: "; cin >> tuSo;
-			cout << "Nhap mau so:"; cin >> mauSo;
+			cout << "Nhap ma hang: "; cin >> maHang;
+			cout << "Nhap ten hang: "; fflush(stdin); gets(tenHang);
+			cout << "Nhap loai hang" << endl;
+			cout << "1. Thoi trang\n2. Tieu dung\n 3. Dien may\n4. Gia dung\nNhap lua chon cua ban: ";
+			bool check = true;
+			while(check == true){
+				cin >> loaiHang;
+				if(loaiHang >5 || loaiHang < 1){
+					cout << "Nhap sai xin nhap lai: ";
+				}
+				else check = false;
+			} 
+			cout << "Nhap gia: "; cin >> giaBan;
 		}
 		void xuat(){
-			cout << tuSo << " / " << mauSo << endl;
-		}
-		bool operator < (PhanSo A){
-			float a = tuSo / mauSo;
-			float b = A.tuSo / A.mauSo;
-			if(a < b) return true;
-			else return false;
+			cout << maHang << ", ";
+			cout << tenHang << ", ";
+			if(loaiHang == 1) cout << "Thoi trang" << ", ";
+			else if (loaiHang == 2) cout << "Tieu dung" << ", ";
+			else if (loaiHang == 3) cout << "Dien may" << ", ";
+			else if (loaiHang == 4) cout << "Gia dung" << ", ";
+			cout << giaBan << endl;
 		}
 };
 
-template<class T> T TimMax(T a[100], int n){
-	T max  = a[0];
-	for(int i=0;i<n;i++){
-		if(max < a[i]) max = a[i];
-	}
-	return max;
-}
+class KhachHang{
+	private:
+		int maKhachHang;
+		int loaiKhachHang;
+		int soLuong;
+		HangHoa hangMua[100];
+	public:
+		KhachHang(){
+			maKhachHang = 0;
+			loaiKhachHang = 0;
+			soLuong = 0;
+		}
+		KhachHang(int maKhachHang, int loaiKhachHang, int soLuong, HangHoa hangMua[100]){
+			this->maKhachHang = maKhachHang;
+			this->loaiKhachHang = loaiKhachHang;
+			this->soLuong = soLuong;
+			for(int i=0;i<soLuong;i++){
+				this->hangMua[i] = hangMua[i];
+			}
+		}
+		~KhachHang(){
+		}
+		void nhap(){
+			cout << "Nhap ma khach hang: "; cin >> maKhachHang;
+			cout << "Nhap loai khach hang: "; 
+			cout << "1. Khach mua le\n2. Khach di buon\nNhap lua chon cua ban: ";
+			bool check = true;
+			while(check == true){
+				cin >> loaiKhachHang;
+				if(loaiKhachHang >2 || loaiKhachHang < 1){
+					cout << "Nhap sai xin nhap lai: ";
+				}
+				else check = false;
+			}
+			cout << "Nhap so luong hang mua: "; cin >> soLuong;
+			cout << "Nhap cac mat hang: " << endl;
+			for(int i=0;i<soLuong;i++){
+				cout << "Nhap thong tin hang thu " << i+1 << endl;
+				hangMua[i].nhap();
+				cout << endl; 
+			} 
+		}
+		void xuat(){
+			cout << maKhachHang << ", ";
+			if(loaiKhachHang == 1) cout << "Khach mua le" << ", ";
+			else if (loaiKhachHang == 2) cout << "Khach di buon" << ", ";
+			cout  << soLuong << endl;
+			for(int i=0;i<soLuong;i++){
+				cout << "Thong tin hang thu " << i+1 << endl;
+				hangMua[i].xuat();
+				cout << endl;
+			}
+		}
+		bool kiemTraKhachVIP(){
+			if(soLuong >= 3) return true;
+			else return false;
+		}
+};
 
 
 
 int main(){
 	int n;
-	cout << "Nhap n: "; cin >> n;
-	float A[100];
-	cout << "Nhap mang A" << endl;
+	cout << "Nhap so luong khach hang: ";
+	cin >> n;
+	KhachHang A[100];
+	cout << "------------NHAP--------------" << endl;
 	for(int i=0;i<n;i++){
-		cout << "Nhap A[" << i+1 << "]: " << endl;
-		cin >> A[i]; 
-	}
-	cout << "Mang vua nhap la: ";
-	for(int i=0;i<n;i++){
-		cout << A[i] << " ";
-	}
-	cout << endl;
-	PhanSo B[100];
-	cout << "Nhap mang B" << endl;
-	
-	for(int i=0;i<n;i++){
-		cout << "Nhap B[" << i+1 << "]: " << endl;
-		B[i].nhap();
+		cout << "Nhap thong tin khach thu " << i+1 << endl;
+		A[i].nhap();
 		cout << endl;
 	}
-	cout << "Max cua A la: " << TimMax(A,n) << endl;
-	PhanSo C = TimMax(B,n);
-	cout << "Max cua B la: "; C.xuat();
-	
+	cout << "------------XUAT--------------" << endl;
+	for(int i=0;i<n;i++){
+		cout << " ------- Thong tin khach thu " << i+1 << "---------" << endl;
+		A[i].xuat();
+		cout << endl;
+	}
+	cout << "------------DS KHACH VIP--------------" << endl;
+	for(int i=0;i<n;i++){
+		if(A[i].kiemTraKhachVIP() == true){
+			cout << "------------KHACH VIP--------------" << endl;
+			A[i].xuat();
+			cout << endl;
+		}
+	}
 	return 0;
 }
