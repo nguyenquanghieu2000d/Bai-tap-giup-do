@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+
+class PhanSo{
+	private:
+		int tuSo;
+		int mauSo;	
+	public:
+		PhanSo(){
+			tuSo = mauSo = 0;
+		}
+		PhanSo(int tuSo, int mauSo){
+			this->tuSo = tuSo;
+			this->mauSo = mauSo;
+		}
+		~PhanSo(){
+		}
+		void nhap(){
+			cout << "Nhap tu so: "; cin >> tuSo;
+			cout << "Nhap mau so:"; cin >> mauSo;
+		}
+		void xuat(){
+			cout << tuSo << " / " << mauSo << endl;
+		}
+		bool operator < (PhanSo A){
+			float a = tuSo / mauSo;
+			float b = A.tuSo / A.mauSo;
+			if(a < b) return true;
+			else return false;
+		}
+};
+
+template<class T> T TimMax(T a[100], int n){
+	T max  = a[0];
+	for(int i=0;i<n;i++){
+		if(max < a[i]) max = a[i];
+	}
+	return max;
+}
+
+
+
+int main(){
+	int n;
+	cout << "Nhap n: "; cin >> n;
+	float A[100];
+	cout << "Nhap mang A" << endl;
+	for(int i=0;i<n;i++){
+		cout << "Nhap A[" << i+1 << "]: " << endl;
+		cin >> A[i]; 
+	}
+	cout << "Mang vua nhap la: ";
+	for(int i=0;i<n;i++){
+		cout << A[i] << " ";
+	}
+	cout << endl;
+	PhanSo B[100];
+	cout << "Nhap mang B" << endl;
+	
+	for(int i=0;i<n;i++){
+		cout << "Nhap B[" << i+1 << "]: " << endl;
+		B[i].nhap();
+		cout << endl;
+	}
+	cout << "Max cua A la: " << TimMax(A,n) << endl;
+	PhanSo C = TimMax(B,n);
+	cout << "Max cua B la: "; C.xuat();
+	
+	return 0;
+}
