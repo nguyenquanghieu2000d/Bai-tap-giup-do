@@ -1,0 +1,108 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class nhanVien {
+private:
+	int maNV;
+	string hoTen;
+	int hsLuong;
+	int namCongTac;
+public:
+	void enter();
+	void output();
+	int getMa();
+};
+
+void nhanVien::enter() {
+	cout << "Nhap ma nv: "; cin >> maNV;
+	cin.ignore();
+	cout << "Nhap ho ten: "; getline(cin, hoTen);
+	cout << "Nhap he so huong: "; cin >> hsLuong;
+	cout << "Nhap nam cong tac: "; cin >> namCongTac;
+}
+
+void nhanVien::output() {
+	cout << maNV << " " << hoTen << " " << hsLuong << " " << namCongTac << endl;
+}
+
+int nhanVien::getMa() {
+	return maNV;
+}
+
+struct node {
+	nhanVien data;
+	node* pNext;
+};
+typedef struct node NODE;
+
+NODE* createNode() {
+	NODE* p = new NODE;
+	if (p == NULL) return NULL;
+	p->data.enter();
+	p->pNext = NULL;
+	return p;
+}
+
+struct list {
+	NODE* pHead;
+	NODE* pTail;
+};
+typedef struct list LIST;
+
+void initList(LIST& l) {
+	l.pHead = NULL;
+	l.pTail = NULL;
+}
+
+void insertAtBegin(LIST& l, NODE* p) {
+	if (l.pHead == NULL) {
+		l.pHead = l.pTail = p; return;
+	}
+	else {
+		p->pNext = l.pHead;
+		l.pHead = p;
+	}
+}
+
+void insertAtEnd(LIST& l, NODE* p) {
+	if (l.pHead == NULL) {
+		l.pHead = l.pTail = p; return;
+	}
+	else {
+		l.pTail->pNext = p;
+		l.pTail = p;
+	}
+}
+
+void findP(LIST& l, int p) {
+	for (NODE* i = l.pHead; i != NULL; i = i->pNext) {
+		if (i->data.getMa() == p) {
+			cout << "Thang nay co trong danh sach" << endl;
+			i->data.output();
+			return;
+		}
+	}
+	cout << "Nhap sai roi nhap lai di: ";
+	cin >> p;
+	findP(l, p);
+}
+
+int main() {
+	int n;
+	cin >> n;
+	LIST A;
+	initList(A);
+	for (int i = 0; i < n; i++) {
+		NODE* a = createNode();
+		insertAtEnd(A, a);
+	}
+	for (NODE* i = A.pHead; i != NULL; i = i->pNext) {
+		i->data.output(); cout << endl;
+	}
+	cout << endl;
+
+	int y; cin >> y;
+	findP(A, y);
+	return 0;
+}
