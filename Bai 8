@@ -13,11 +13,13 @@ struct list {
 };
 typedef struct list List;
 
+// Kiem tra rong
 bool isEmpty(List l) {
 	if (l.pHead) return false;
 	else return true;
 }
 
+// Tao node
 Node* createNode() {
 	Node* p = new Node;
 	if (p == NULL) {
@@ -30,11 +32,11 @@ Node* createNode() {
 		return p;
 	}
 }
-
+// Khoi tao danh sach
 void initList(List& l) {
 	l.pHead = l.pTail = NULL;
 }
-
+// Chen dau
 void insertAtBegin(List& l, Node* p) {
 	if (p == NULL) {
 		cout << "Node NULL"; 
@@ -50,6 +52,7 @@ void insertAtBegin(List& l, Node* p) {
 	}
 }
 
+// Xuat danh sach
 void output(List l) {
 	if (isEmpty(l)) cout << "Khong co phan tu" << endl;
 	else {
@@ -60,7 +63,7 @@ void output(List l) {
 	}
 
 }
-
+// Nhap danh sach theo n
 void enterList(List& l, int n) {
 	for (int i = 0; i < n; i++) {
 		Node* p = createNode();
@@ -68,6 +71,7 @@ void enterList(List& l, int n) {
 	}
 }
 
+// Phan tu min duong
 Node* minPositive(List l) {
 	if (isEmpty(l)) return NULL;
 	Node* p = NULL;
@@ -82,7 +86,7 @@ Node* minPositive(List l) {
 	if (p) return p;
 	else return NULL;
 }
-
+// Phan tu max am
 Node* maxMinus(List l) {
 	if (isEmpty(l)) return NULL;
 	Node* p = NULL;
@@ -97,7 +101,7 @@ Node* maxMinus(List l) {
 	if (p) return p;
 	else return NULL;
 }
-
+// Dem x trong list
 int countXinList(List l, int x) {
 	if (isEmpty(l)) return 0;
 	int count = 0;
@@ -107,7 +111,7 @@ int countXinList(List l, int x) {
 	return count;
 }
 
-
+// Xoa dau
 void deleteAtBegin(List& l) {
 	if (isEmpty(l)) return;
 	else {
@@ -116,7 +120,7 @@ void deleteAtBegin(List& l) {
 		delete p;
 	}
 }
-
+// xoa cuoi
 void deleteAtEnd(List& l) {
 	if (isEmpty(l)) return;
 	else {
@@ -132,6 +136,8 @@ void deleteAtEnd(List& l) {
 		}
 	}
 }
+
+// Xoa tat ca x trong list
 void deleteXinList(List& l, int x) {
 	if (isEmpty(l)) return;
 	else {
