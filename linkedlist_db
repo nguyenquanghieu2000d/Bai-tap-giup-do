@@ -1,0 +1,170 @@
+//ma ten namsinh
+/*tao 1 danh sach lien ket kep
+luu tru n nhan vien
+bang phuong phap chen dau chen sau chen cuoi
+hien thi thong so n sinh vien tren
+tim kiem sinh vien co diem tong ket lop nhat
+xoa cac sinh vien co diem tong ket <= 5
+*/
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct sinhvien {
+	string masv;
+	string tensv;
+	int namsinh;
+	float diemTK;
+	void enter();
+	void output();
+
+};
+typedef struct sinhvien sv;
+
+void sinhvien::enter() {
+	cin.ignore();
+	cout << "Nhap ma sinh vien: ";
+	getline(cin, masv);
+	cout << "Nhap ten sinh vien: ";
+	getline(cin, tensv);
+	cout << "Nhap nam sinh: ";
+	cin >> namsinh;
+	cout << "Nhap diem tong ket: ";
+	cin >> diemTK;
+}
+
+void sinhvien::output() {
+	cout << masv << "," << tensv << "," << namsinh << "," << diemTK << endl;
+}
+
+
+struct node {
+	sv data;
+	node* pNext;
+	node* pPrev;
+};
+typedef struct node Node;
+
+Node* createNode() {
+	Node* p = new Node;
+	if (p == NULL) {
+		cout << "Khong the cap phat"; return NULL;
+	}
+	else {
+		p->data.enter();
+		p->pNext = NULL;
+		p->pPrev = NULL;
+		return p;
+	}
+}
+
+struct list {
+	Node* pHead;
+	Node* pTail;
+};
+typedef struct list List;
+
+void initList(List& l) {
+	l.pHead = l.pTail = NULL;
+}
+
+bool isEmpty(List l) {
+	if (l.pHead) return false;
+	else return true;
+}
+
+
+void insertNode(List &l, Node *p) {
+	if (p == NULL) {
+		cout << "Lam gi co node ma chen";
+		return;
+	}
+	else {
+		if (isEmpty(l)) l.pHead = l.pTail = p;
+		else {
+			p->pNext = l.pHead;
+			l.pHead->pPrev = p;
+			l.pHead = l.pHead->pNext;
+			l.pHead = p;
+		}
+	}
+}
+
+void enter(List& l, int n) {
+	for (int i = 0; i < n; i++) {
+		Node* p = createNode();
+		insertNode(l, p);
+	}
+}
+
+void output(List l) {
+	if (isEmpty(l)) {
+		cout << "Danh sach rong"; return;
+	}
+	for (Node* i = l.pHead; i != NULL; i = i->pNext) {
+		i->data.output(); cout << endl;
+	}
+}
+
+void outputReverse(List l) {
+	for (Node* i = l.pTail; i != NULL; i = i->pPrev) {
+		i->data.output(); cout << endl;
+	}
+}
+
+
+Node* svMax(List l) {
+	Node* p = l.pHead;
+	for (Node* i = l.pHead; i != NULL; i = i->pNext) {
+		if (i->data.diemTK > p->data.diemTK) p = i;
+	}
+	return p;
+}
+
+void deleteBegin(List& l) {
+	if (isEmpty(l)) {
+		cout << "lam gi co gia tri ma xoa"; return;
+	}
+	else {
+		Node* p = l.pHead;
+		l.pHead = l.pHead->pNext;
+		delete p;
+	}
+}
+
+void delete123(List& l) {
+	if (isEmpty(l)) {
+		cout << "lam gi co gia tri ma xoa"; return;
+	}
+	else {
+		while (l.pHead && l.pHead->data.diemTK <= 5) deleteBegin(l);
+		if (isEmpty(l)) return;
+		
+		for (Node* i = l.pHead; i != NULL; i = i->pNext) {
+			if (i->pNext && i->pNext->data.diemTK <= 5) {
+				while (i->pNext->data.diemTK <= 5) {
+					Node* p = i->pNext;
+					i->pNext = i->pNext->pNext;
+					delete p;
+				}
+			}
+		}
+	}
+}
+
+int main() {
+	int n;
+	cout << "Nhap so sinh vien: ";
+	cin >> n;
+	List l;
+	initList(l);
+	enter(l, n);
+	cout << "Xuat danh sach: " << endl;
+	output(l);
+	cout << "max: "; 
+	svMax(l)->data.output();
+	cout << "danh sach sau khi xoa:" << endl;
+	delete123(l);
+	output(l);
+	return 0;
+}
