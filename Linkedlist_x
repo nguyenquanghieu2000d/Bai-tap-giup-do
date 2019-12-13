@@ -206,7 +206,8 @@ int main()
 		Chendau(l,p);
 	}
     DuyetDS(l);
-
+    /* HIEU DA THAY DOI O DAY*/
+    ////////////////////////////////////////////////////////////////////
     int x;
     cout << endl << "-------------- TIM VA XOA DU AN -----------------" << endl;
     cout << "Nhap ma du an: ";
@@ -216,7 +217,7 @@ int main()
         DuyetDS(l);
     }
     else cout << "Khong tim thay trong danh sach";
-    
+    ///////////////////////////////////////////////////////
 	return 0;
 }
 
