@@ -1,0 +1,225 @@
+#include<iostream>
+#include<stdio.h>
+#include<string.h>
+
+using namespace std; 
+
+struct DuAn
+{
+	int Ma;
+	char Ten[50];
+	char Quymo[50];
+	float Kinhphi;		
+};
+struct Node
+{
+	DuAn Data;
+	struct Node*Next;	
+};
+
+struct List
+{
+	Node *pHead;
+	Node *pTail;
+};
+
+Node *newnode(DuAn d)
+{
+	Node*p= new Node;
+	if(p==NULL)
+	{
+		cout<<" Khong duoc cap phat!"<< endl;
+		exit(0);
+	}
+	else
+	{
+		p->Data=d;
+		p->Next=NULL;
+	}
+};
+
+void Khoitao(List &l)
+{
+	l.pHead=NULL;
+	l.pTail=NULL;
+}
+
+void Nhap(DuAn &d)
+{
+	cout<<"     "<<"Nhap ma du an: ";
+	cin>> d.Ma;
+	cout<< endl <<"     "<<"Nhap ten du an: ";
+	fflush(stdin);
+    cin.ignore();
+	cin.getline(d.Ten,50);
+	cout<< endl <<"     "<<"Nhap quy mo du an (1.Nho, 2.Trung Binh, 3. Lon): ";
+	//fflush(stdin);
+	cin.getline(d.Quymo,50); 
+	cout<< endl <<"     "<<"Nhap kinh phi du an: ";
+	cin>>d.Kinhphi;
+		cout<<endl;
+}
+
+void Xuat(DuAn d)
+{
+	cout<<"Ma du an: "<< d.Ma << "       ----------       " << "Ten du an: " << d.Ten << endl;
+	cout<<"Quy mo du an: "<< d.Quymo << "     ----------   " << "Kinh phi du an: " << d.Kinhphi << endl;
+}
+
+void Chendau(List &l, Node*p)
+{
+	if(l.pHead==NULL & l.pTail==NULL)
+	{
+		l.pHead=l.pTail=p;
+	}
+	else
+	{
+		p->Next=l.pHead;
+		l.pHead=p;
+	}
+}
+
+void XoaPT(List &l,DuAn d)
+{
+	Node *p= new Node;
+	Xoa: for(Node* k=l.pHead; k!=NULL; k=k->Next)
+	{
+		if(k->Data.Ma==d.Ma)
+		{
+			if(k==l.pHead)
+			{
+				l.pHead=l.pHead->Next;
+				delete k;
+				goto Xoa;	
+			}
+			if(k==l.pTail)
+			{
+				l.pTail=p;
+				p->Next=NULL;
+				delete k;
+				goto Xoa;
+			}
+			p->Next=k->Next;
+			delete k;
+			goto Xoa;
+		}
+		p=k;
+	}
+}
+
+void Lietke(List l, DuAn d)
+{
+	for(Node* k=l.pHead; k!=NULL; k=k->Next)
+	{
+		if(k->Data.Kinhphi>=5000 && k->Data.Kinhphi<=10000)
+		{
+			Xuat(k->Data);
+		}
+	}
+}
+
+void Timkiem(List l, int x)
+{
+	for(Node* k=l.pHead; k!=NULL; k=k->Next)
+	{
+		if(k->Data.Ma==x)
+		{
+			cout<<"Co trong danh sach"<< endl;
+            return;
+		}
+	}
+    cout<<"Khong co trong danh sach"<< endl;
+}
+	
+
+void DuyetDS(List l)
+{
+	for(Node* p=l.pHead; p!=NULL; p=p->Next)
+	{
+		 Xuat(p->Data);
+	}
+}
+/* CODE CUA HIEU O DAY */
+///////////////////////////////////////////////////////////////////////
+
+void xoaDau(List &l){
+    if(!l.pHead){
+        cout << "Danh sach rong";
+        return;
+    }
+    else{
+        Node *p = l.pHead;
+        l.pHead = l.pHead->Next;
+        delete p;
+    }
+}
+
+void xoaSau(List &l, Node *q){
+    if(!q){
+        cout << "Khong co node de xoa";
+        return;
+    }
+    else{
+        Node *p = q->Next;
+        if(p == l.pTail) l.pTail = q;
+        else q->Next = p->Next;
+        p->Next = NULL;
+        delete p;
+    }
+}
+
+bool xoataik(List &l, int k){
+    Node *p = l.pHead;
+    Node *q = NULL;
+    while(p && p->Data.Ma != k){
+        q = p;
+        p = p->Next;
+    }
+    if(!p) return false;
+    else{
+        if(!q) xoaDau(l);
+        else if (p == l.pTail){
+            delete p;
+            l.pTail = q;
+            q->Next = NULL;
+        }
+        else xoaSau(l,q);
+    }
+    return true;
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+int main()
+{
+	DuAn d;
+	List l;
+	Khoitao(l);
+    int n;
+	cout<<"Nhap so du an: ";
+	cin>>n;
+	for(int i=0; i<n; i++)
+	{
+		cout<<"Nhap thong tin du an so " << i+1 << ":" <<endl;
+		Nhap(d);
+		Node*p= newnode(d);
+		Chendau(l,p);
+	}
+    DuyetDS(l);
+
+    int x;
+    cout << endl << "-------------- TIM VA XOA DU AN -----------------" << endl;
+    cout << "Nhap ma du an: ";
+    cin >> x;
+    if(xoataik(l,x)) {
+        cout << "Tim ma co trong danh sach !!! Da xoa" << endl;
+        DuyetDS(l);
+    }
+    else cout << "Khong tim thay trong danh sach";
+    
+	return 0;
+}
+
+
+
+
